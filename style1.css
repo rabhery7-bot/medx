@@ -6,7 +6,7 @@
        color: #333;
    }
    header{
-       background-image: url(images/books-5211309_1920.jpg);
+       background-image: url(assets/Images/books-5211309_1920.jpg);
        height: 100vh;
        background-size: cover;
        background-position: center;
@@ -62,4 +62,5 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
 
