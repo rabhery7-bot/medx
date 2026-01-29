@@ -1,65 +1,99 @@
-  body{
-       padding: 0;
-       margin: 0;
-       box-sizing: border-box;
-       font-family: century;
-       color: #333;
-   }
-   header{
-       background-image: url(images/books-5211309_1920.jpg);
-       height: 100vh;
-       background-size: cover;
-       background-position: center;
-   }
-   h1{
-       color: #FFFFFF;
-       padding: 0px 20px;
-       border: 1px solid #383838;
-       position: absolute;
-       top: 10px;
-       left: 10px;
-       text-transform: uppercase;
-       text-decoration: none;
-       font-weight: 900;
-       text-shadow: rgba(0,0,0,0.7);
-   }
-   h1 span{
-       color: #000000;
-       font-weight: bold;
-       font-size: 2rem;
-   }
-   ul{
-       list-style: none;
-       float: right;
-       display: flex;
-       margin-top: 20px;
-   }
-   ul li a{
-       text-decoration: none;
-       color: #FFFFFF;
-       padding: 10px 20px ;
-       text-transform: uppercase;
-       border: 1px solid #000000;
-       margin: 10px;
-       font-weight: 500;
-       transition: 0.6s ease;
-   }
-    ul li a:hover{
-        background: #FFFFFF;
-        color: #000000;
-    }
-    ul li.active a{
-        background: #FFFFFF;
-        color: #000000;
-    }
-    principale{
-        max-width: 114rem;
-        margin: 0 auto;
-    }
-    titre{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+body {
+    background-image:
+    url("assets/Images/Picsart_25-12-03_11-59-14-688.png");
+    background-size: repeat;
+    background-position: center;
+    background-color:rgba(255,255,255,0.9);
+}
+header{
+    color: #0000FF;
+    text-align: center;
+    padding: 50px 20px;
+}
+ header h1 {
+     margin-bottom: 15px;
+}
+main {
+    max-width: 1000px;
+    margin:20px auto;
+    padding: 0 20px;
+}
+section {
+    background-color: #4B0082;
+    padding:20px;
+    margin-bottom:30px;
+    border-radius:12px;
+    box-shadow: 0 4px 10px
+rgba(0,0,0,0,1);
+}
+section h2 {
+    color: #8B008B;
+    margin-bottom: 15px;
+}
+li {
+    margin-bottom: 12px;
+}
+a:hover{
+    text-decoration: underline;
+    color: #8B008B;mk:@MSITStore:C:\Program%20Files%20(x86)\Developpement%20web%20et%20apps\David%20Esperalta\AppBuilder\Help\AppBuilder.chm::/images/appWizard.png
+}
+ container {
+     max-width: 900px;
+     margin:auto;
+     background: rgba(255,255,255,0.85);
+     padding: 20px;
+     border-radius: 12px;
+     box-shadow: 0 0 20px
+rgba(0,0,0,0,1);
+}
+ bibliotheque-grid{
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+     gap: 30px
+ }
+
+ book-card{
+     background: #FFFFFF;
+     border-radius: 16px;
+     padding: 15px;
+     box-shadow: 0 12px 30px #808080;
+     text-align: center;
+ }
+ book-card:hover{
+     transform: translateY(-6px);
+ }
+ book-card iframe{                                                                         }
+     width: 100%;
+     height: 220px;
+     border: none;
+     border-radius: 12px;
+     margin-bottom: 12px;
+ }
+ book-card h3{
+     font-size: 16px;
+     margin: 10px 0;
+ }
+ book-actions{
+     display: flex;
+     justify-content: space-between;
+     gap: 10px
+ }
+ book-actions a {
+     flex: 1;
+     padding: 10px;
+     background: #4B0082;
+     color: #FFFFFF;
+     text-decoration: none;
+     border-radius: 20px;
+     font-size: 14px;
+ }
+  video-grid{
+      display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+     background: #4B0082
+     gap: 30px
+}
+
+
+
 
