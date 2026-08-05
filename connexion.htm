@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Check & Learn</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; display: flex; justify-content:
+center; align-items: center; min-height: 100vh; margin: 0; }
+        .box { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px
+rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
+        h2 { margin-bottom: 20px; color: #333; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius:
+5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 5px;
+background-color: #007bff; color: white; font-size: 16px; cursor: pointer; }
+        button.secondary { background-color: #6c757d; }
+        .status { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Check & Learn</h2>
+    <input type="email" id="email" placeholder="Adresse e-mail" required>
+    <input type="password" id="password" placeholder="Mot de passe (6 car. min)" required>
+
+    <button id="btnLogin">Se connecter</button>
+    <button id="btnSignup" class="secondary">Créer un compte</button>
+
+    <div id="statusMsg" class="status"></div>
+</div>
+
+<script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const emailIn = document.getElementById('email');
+    const passIn = document.getElementById('password');
+    const msg = document.getElementById('statusMsg');
+
+    // Inscription
+    document.getElementById('btnSignup').addEventListener('click', async () => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, emailIn.value,
+passIn.value);
+            const user = userCredential.user;
+
+            // Création du profil abonné (Par défaut : non abonné)
+            await setDoc(doc(db, "users", user.uid), {
+                email: user.email,
+                estAbonne: false,
+                dateExpiration: ""
+            });
+
+            msg.style.color = "green";
+            msg.innerText = "Compte créé ! Redirection...";
+            setTimeout(() => { window.location.href = "index.html"; }, 1500);
+        } catch (err) {
+            msg.style.color = "red";
+            msg.innerText = "Erreur : " + err.message;
+        }
+    });
+
+    // Connexion
+    document.getElementById('btnLogin').addEventListener('click', async () => {
+        try {
+            await signInWithEmailAndPassword(auth, emailIn.value, passIn.value);
+            msg.style.color = "green";
+            msg.innerText = "Connexion réussie !";
+            setTimeout(() => { window.location.href = "index.html"; }, 1500);
+        } catch (err) {
+            msg.style.color = "red";
+            msg.innerText = "E-mail ou mot de passe incorrect.";
+        }
+    });
+</script>
+</body>
+</html>
