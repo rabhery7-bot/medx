@@ -12,6 +12,51 @@
          <h1>Bienvenu sur mon site savoir et apprendre </h1>
          <p>Apprenez &sbquo;partagez et d&eacutecouvrez des ressources &eacute;ducatives
      modernes !</p>
+         <!-- Sécurité Firebase pour page abonnés -->
+<script type="module">
+  import { auth, db } from './firebase-config.js';
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // Masquer temporairement le corps de la page pendant la vérification
+  document.documentElement.style.display = 'none';
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // Utilisateur non connecté -> Redirection vers la connexion
+      alert("🔐 Veuillez vous connecter pour accéder à ce cours.");
+      window.location.href = "connexion.html";
+      return;
+    }
+
+    try {
+      // Récupération des données de l'abonné dans Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        const today = new Date().toISOString().split('T')[0];
+
+        // Vérification de l'abonnement et de la date
+        if (data.estAbonne === true && data.dateExpiration >= today) {
+          // Accès accordé : afficher le contenu de la page
+          document.documentElement.style.display = 'block';
+        } else {
+          alert("⛔ Votre abonnement n'est pas actif ou a expiré. Veuillez contacter l'administration Check & Learn.");
+          window.location.href = "index.html";
+        }
+      } else {
+        alert("Compte non trouvé.");
+        window.location.href = "connexion.html";
+      }
+    } catch (error) {
+      console.error("Erreur de vérification :", error);
+      window.location.href = "index.html";
+    }
+  });
+</script>
+
     </header>
 
     <div>
