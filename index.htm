@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MedX - Apprendre la médecine seul & efficacement</title>
 
-  <!-- Lien FontAwesome pour afficher l'icône médicale du caducée -->
+  <!-- FontAwesome pour les icônes de la page -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
   <style>
@@ -24,11 +24,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
     body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; }
 
-    /* En-tête / Barre de Navigation */
+    /* En-tête / Navigation */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+      padding: 0.75rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -37,32 +37,20 @@
       z-index: 100;
     }
 
-    /* Logo Modèle B (SpaceX + Caducée) */
-    .logo-medx-icon {
-      display: inline-flex;
+    /* Style du conteneur du Logo SVG */
+    .brand-logo-svg {
+      display: flex;
       align-items: center;
-      gap: 0.6rem;
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: 3px;
-      color: var(--text-main);
       text-decoration: none;
-      text-transform: uppercase;
+      height: 42px;
       transition: opacity 0.2s ease;
     }
-
-    .logo-medx-icon:hover {
-      opacity: 0.85;
+    .brand-logo-svg:hover {
+      opacity: 0.9;
     }
-
-    .icon-caduceus {
-      color: var(--primary);
-      font-size: 1.4rem;
-    }
-
-    .x-blue {
-      color: var(--primary);
-      font-weight: 900;
+    .brand-logo-svg svg {
+      height: 100%;
+      width: auto;
     }
 
     /* Liens de Navigation */
@@ -100,6 +88,7 @@
       border-radius: 8px;
       font-weight: 600;
       display: inline-block;
+      transition: background 0.2s;
     }
     .btn-hero:hover { background: var(--primary-dark); }
 
@@ -138,17 +127,50 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      transition: background 0.2s;
     }
+    .btn-app:hover { background: var(--primary-dark); }
     .app-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; }
   </style>
 </head>
 <body>
 
-  <!-- EN-TÊTE AVEC LE NOUVEAU LOGO SPACEX + CADUCÉE -->
+  <!-- BARRE DE NAVIGATION AVEC LOGO VECTORIEL MEDX -->
   <header>
-    <a href="index.html" class="logo-medx-icon">
-      <i class="fa-solid fa-staff-snake icon-caduceus"></i>
-      <span>MED<strong class="x-blue">X</strong></span>
+    <a href="index.html" class="brand-logo-svg" title="MedX Accueil">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120">
+        <defs>
+          <linearGradient id="medGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0066FF" />
+            <stop offset="100%" stop-color="#00C6FF" />
+          </linearGradient>
+        </defs>
+
+        <!-- Texte MED -->
+        <text x="10" y="85" font-family="'Segoe UI', Roboto, sans-serif" font-size="68" font-weight="800" fill="#0F172A" letter-spacing="2">
+          MED
+        </text>
+
+        <!-- X Vectoriel Stéthoscope -->
+        <g transform="translate(170, 10)">
+          <!-- Branche gauche du X -->
+          <path d="M 25 20 L 45 20 L 85 100 L 65 100 Z" fill="url(#medGradient)" />
+          
+          <!-- Branche droite du X -->
+          <path d="M 75 20 L 58 53 L 72 63 L 95 20 Z" fill="url(#medGradient)" />
+          
+          <!-- Boucle stéthoscope -->
+          <path d="M 58 53 C 45 75 40 95 60 112 C 75 125 100 120 110 100 C 115 90 110 80 100 80 C 90 80 88 92 82 98 C 75 105 65 102 58 92 C 52 82 55 70 65 58 Z" fill="url(#medGradient)" />
+
+          <!-- Pavillon du stéthoscope -->
+          <circle cx="102" cy="80" r="12" fill="url(#medGradient)" />
+          <circle cx="102" cy="80" r="7" fill="#FFFFFF" />
+          
+          <!-- Embouts auriculaires -->
+          <circle cx="25" cy="18" r="4" fill="#0066FF" />
+          <circle cx="95" cy="18" r="4" fill="#0066FF" />
+        </g>
+      </svg>
     </a>
 
     <nav class="nav-links">
@@ -160,14 +182,14 @@
     </nav>
   </header>
 
-  <!-- BANNIÈRE PRINCIPALE -->
+  <!-- HERO SECTION -->
   <section class="hero">
     <h1>Apprendre la médecine seul & efficacement</h1>
     <p>Une méthode simple basée sur des ressources claires et des cours pratiques.</p>
     <a href="medecine.html" class="btn-hero">Découvrir les cours</a>
   </section>
 
-  <!-- RESSOURCES & EXERCICES -->
+  <!-- CONTENU PRINCIPAL -->
   <main class="container">
     <h2 class="section-title">Ressources & Exercices</h2>
 
@@ -191,7 +213,7 @@
       </div>
     </div>
 
-    <!-- BOUTON D'APPLICATION -->
+    <!-- TÉLÉCHARGEMENT APK -->
     <div>
       <a href="#" class="btn-app">
         <i class="fa-solid fa-mobile-screen-button"></i> Télécharger l'Application Android (APK Gratuit)
