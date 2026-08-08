@@ -305,26 +305,5 @@
   <footer>
     &copy; 2026 MedX. Tous droits réservés.
   </footer>
-<!-- SDKs Firebase (v9+ Compatibilité) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-<!-- Lien vers ton fichier de configuration Firebase -->
-<script src="auth.js"></script>
-
-<script>
-  // Vérification du statut de connexion au chargement de la page
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      // L'utilisateur est connecté : on affiche la page
-      console.log("Accès autorisé pour :", user.email);
-      document.body.style.display = "block";
-    } else {
-      // L'utilisateur n'est pas connecté : redirection vers la page de connexion
-      console.warn("Accès refusé. Redirection vers login.html...");
-      window.location.href = "login.html";
-    }
-  });
-</script>
 </body>
 </html>
