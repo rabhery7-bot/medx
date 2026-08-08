@@ -222,26 +222,5 @@
       <div class="app-note">Compatible avec tous les smartphones Android.</div>
     </div>
   </main>
-<!-- SDKs Firebase (v9+ Compatibilité) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-<!-- Fichier de configuration Firebase -->
-<script src="auth.js"></script>
-
-<script>
-  // Vérification au chargement de l'accueil
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      // Utilisateur connecté : on affiche le site
-      console.log("Accès autorisé :", user.email);
-      document.body.style.display = "block";
-    } else {
-      // Non connecté : redirection immédiate vers la page de connexion
-      console.warn("Accès refusé. Redirection...");
-      window.location.href = "login.html";
-    }
-  });
-</script>
 </body>
 </html>
