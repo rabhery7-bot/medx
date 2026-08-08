@@ -1,408 +1,278 @@
-<!DOCTYPE HTML>
-
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-     <meta charset="UTF-8">
-     <title>Mon site Educatif</title>
-     <link rel="stylesheet" href="med style.css">
-</head>
-
-<body>
-    <header>
-         <h1>Bienvenu sur mon site savoir et apprendre </h1>
-         <p>Apprenez &sbquo;partagez et d&eacutecouvrez des ressources &eacute;ducatives
-     modernes !</p>
-         <!-- Sécurité Firebase pour page abonnés -->
-<script type="module">
-  import { auth, db } from './firebase-config.js';
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  // Masquer temporairement le corps de la page pendant la vérification
-  document.documentElement.style.display = 'none';
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      // Utilisateur non connecté -> Redirection vers la connexion
-      alert("🔐 Veuillez vous connecter pour accéder à ce cours.");
-      window.location.href = "connexion.html";
-      return;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedX - Plateforme d'Apprentissage Médical</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg-main: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+      --radius: 16px;
     }
 
-    try {
-      // Récupération des données de l'abonné dans Firestore
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; }
 
-      if (userDoc.exists()) {
-        const data = userDoc.data();
-        const today = new Date().toISOString().split('T')[0];
-
-        // Vérification de l'abonnement et de la date
-        if (data.estAbonne === true && data.dateExpiration >= today) {
-          // Accès accordé : afficher le contenu de la page
-          document.documentElement.style.display = 'block';
-        } else {
-          alert("⛔ Votre abonnement n'est pas actif ou a expiré. Veuillez contacter l'administration Check & Learn.");
-          window.location.href = "index.html";
-        }
-      } else {
-        alert("Compte non trouvé.");
-        window.location.href = "connexion.html";
-      }
-    } catch (error) {
-      console.error("Erreur de vérification :", error);
-      window.location.href = "index.html";
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100;
     }
-  });
-</script>
+    .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
 
-    </header>
-
-    <div>
-       <section id="biblioth&egrave;que" class="container">
-           <h2>COURS ET EXERCICE</h2>
-
-           <div class="biblioth&egrave;que-grid">
-
-            <div class="book-card">
-              <iframe src="assets/Médecine 1ere Année/specifiue/Diapo TDM.pdf"
-    >Lire et T&eacute;l&eacute;charger</iframe>
-           <h3>DIAPO TDM</h3>
-           <div class="book-actions">
-               <a href="assets/Médecine 1ere Année/specifiue/Diapo TDM.pdf"
-    target="_blank">Lire</a>
-               <a href="assets/Médecine 1ere Année/specifiue/Diapo TDM.pdf"
-    DOWNLOAD>T&eacute;l&eacute;charger</a>
-            </div>
-
-            <div class="book-card">
-                 <iframe src="assets/pdf anglais/EXERCISES PLURIEL(1).pdf">Lire
-                  et T&eacute;l&eacute;charger</iframe>
-            <h3>Exercice Pluriel<h3>
-            <div class="book-actions">
-                <a href="assets/pdf anglais/EXERCISES PLURIEL(1).pdf"
-    target="_blank">Lire</a>
-                <a href="assets/pdf anglais/EXERCISES PLURIEL(1).pdf"DOWNLOAD>
-    T&eacute;l&eacute;charger</a>
-            </div>
-
-            <div class="book-card">
-                <iframe src="assets/pdf anglais/EXERCISES NOUN.pdf"></iframe>
-            <h3>Exercice on Noun</h3>
-            <div class="book-actions">
-                <a href="assets/pdf anglais/EXERCISES NOUN.pdf">Lire</a>
-                <a href="assets/pdf anglais/EXERCISES NOUN.pdf">
-    T&eacute;l&eacute;charger</a>
-
-              <div class="book-card">
-                <iframe src="assets/pdf anglais/LESSON.pdf"></iframe>
-            <h3>Lesson on Article</h3>
-            <div class="book-actions">
-                <a href="assets/pdf anglais/LESSON.pdf">Lire</a>
-                <a href="assets/pdf anglais/LESSON.pdf">
-    T&eacute;l&eacute;charger</a>
-
-             <div class="book-card">
-                <iframe src="assets/pdf anglais/Lesson1.pdf"></iframe>
-            <h3>Lesson American-English</h3>
-            <div class="book-actions">
-                <a href="assets/pdf anglais/Lesson1.pdf">Lire</a>
-                <a href="assets/pdf anglais/Lesson1.pdf">
-    T&eacute;l&eacute;charger</a>
-
-             <div class="book-card">
-                <iframe src="assets/pdf anglais/Lesson1.pdf"></iframe>
-            <h3>Lesson American-English</h3>
-            <div class="book-actions">
-                <a href="assets/pdf anglais/Lesson1.pdf">Lire</a>
-                <a href="assets/pdf anglais/Lesson1.pdf">
-    T&eacute;l&eacute;charger</a>
-
-            <div class="book-card">
-                <iframe src="assets/pdf anglais/american expression2.pdf"></iframe>
-            <h3>Lesson American expression</h3>
-            <div class="book-actions">
-                <a href="assets/pdf anglais/american expression2.pdf">Lire</a>
-                <a href="assets/pdf anglais/american expression2.pdf">
-    T&eacute;l&eacute;charger</a>
-        </div>
-    </section>
-
-        <div>
-            <section id="vid&eacute;os" style="padding: 40px 20px; background: #4B0082;
-     text-align: center;">
-                <h2
-    style="color: #2B2B2B; font-family: Arial,sans-serif;">Biblioth&egrave;que
-    Vid&eacute;os</h2>
-
-                <div>
-                    <video controls preload="metadata" width="100">
-                    <source type="assets/Vidéos/Ma video.mp4" type="video/mp4">
-                    </video>
-                    </div>
-            </section>
-        </div>
-     <header class="hero">
-        <h1>Apprendre l'anglais seul,efficacement</h1>
-        <p>Une m&eacute;thode simple bas&eacute;e sur des livres clairs et
-    &eacute;prouv&eacute;s.</p>
-    </header>
-
-<main class="container">
-
-<section class="intro">
-    <h2>Pourquoi beaucoup abandonnent l'anglais</h2>
-    <p>
-        Le probl&egrave;me n'est pas la motivation.
-        Le probl&egrave;me,ce sont les mauvaises m&eacute;thodes : trop de th&eacute;orie,
-    pas assez de pratique r&eacute;elle.
-    </p>
-</section>
-
-<section class="Method">
-    <h2>La m&eacute;thode simple qui fonctionne</h2>
-    <ul>
-        <li>Comprendre les bases clairement</li>
-        <li>Pratiquer la conversation d&egrave;s le d&eacute;but</li>
-        <li>Lire et &eacute;couter un anglais naturel</li>
-    </ul>
-</section>
-
-<section class="books">
-    <h2>Livres recommand&eacute;es pour apprendre l'anglais</h2>
-
-    <div class="book-card">
-      <h3>English Grammar in Use</h3>
-      <p>Id&eacute;al pour comprendre la grammaire sans stress.</p>
-      <a href="https://amzn.to/3LcoMgS" class="btn">Voir sur Amazon</a>
-    </div>
-
-    <div class="book-card">
-      <h3>Speak English Like an American</h3>
-      <p>Expression utilis&eacute;es par les natifs.</p>
-      <a href="https://amzn.to/4pSFZel" class="btn">Voir sur Amazon</a>
-    </div>
-
-    <div class="book-card">
-       <h3>Speak English Like an American</h3>
-       <p>Expressions Utilis&eacute;es par les natifs .</p>
-       <a href="https://amzn.to/4pSFZel" class="btn">Voir sur Amazon</a>
-    </div>
-
-    <div class="book-card">
-        <h3>English Short Stories for Beginners</h3>
-        <p>Lire, comprendre et m&eacute;moriser du vocabulaire .</p>
-        <a href="#" class="btn">Voir sur Amazon</a>
-    </div>
-
-    <div class="book-card">
-        <h3>Oxford Learner's Dictionary</h3>
-        <p>Un dictionnaire fiable pour progresser s&eacute;rieusement.</p>
-        <a href="#" class="btn">Voir sur Amazon</a>
-    </div>
-
-        <section class="Disclaimer">
-            <p class="amazon-disclaimer">
-            En tant que partenaire Amazon, je r&eacute;alise un b&eacute;n&eacute;fice sur
-            les achats remplissant les conditions requises .
-            </p>
-
-
- <section class="legal">
-    <h2>&Agrave; propos</h2>
-        <p>
-            Ce site a pour objectif d'aider les d&eacute;butant &agrave; apprendre
-            l'anglais &agrave;l'aide des livres,des ressources &eacute;ducatives et de
-            recommandations disponibles sur Amazon
-        </p>
-    <h2>Politique de confidentialit&eacute;</h2>
-        <p>
-            Ce site ne collecte aucune donn&eacute;e personnelle directement.Certains liens
-            d'affiliation Amazon .
-            Amazon peut utiliser des cookies conform&eacute;ment &agrave; sa propre politique
-            de confidentialit&eacute;
-        </p>
- </section>
-
-<section class="contact">
-    <h2>Contact</h2>
-    <p>
-        Pour toute question , vous pouvez nous contacter &agrave; l'addresse:
-    <strong>contact@monsite.com</strong>
-    </strong>
-    <h2>RESTEZ CONNECTE</h2>
-    <p>Entrez votre email recevoir des ressources gratuites et des
-    vid&eacute; :</p>
-    <form>
-    <input type="email"placeholder="votre email" required>
-    <button type="submit">S'inscrire</button>
-     </form>
-</section>
-    </main>
-             <!-- ==================================================== -->
-<!-- ZONE GÉNÉRATEUR DE QCM (Créateur & Élèves autorisés) -->
-<!-- ==================================================== -->
-<div id="qcmGeneratorSection" style="display: none; background: #f0f7ff; border: 2px dashed #007bff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-  <h3 style="margin-top: 0; color: #007bff;">📄 Générateur Automatique de QCM par PDF</h3>
-  <p style="margin-bottom: 10px; color: #555;">Importe ton fichier de cours en PDF pour générer un quiz d'évaluation instantané :</p>
-  
-  <input type="file" id="pdfFileInput" accept=".pdf" style="margin-bottom: 10px;" />
-  <br>
-  <button onclick="genererQCMDepuisPDF()" id="btnGenerate" style="padding: 10px 18px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
-    🚀 Générer les questions
-  </button>
-  
-  <p id="statusMsg" style="margin-top: 10px; font-weight: bold;"></p>
-</div>
-
-<!-- ==================================================== -->
-<!-- ZONE D'AFFICHAGE ET DE CORRECTION DU QCM -->
-<!-- ==================================================== -->
-<div id="qcmContainer" style="margin-top: 20px;"></div>
-
-<!-- Bibliothèque PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-
-<script>
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-
-  // ⚠️ CONFIGURATION : Ton adresse e-mail d'administrateur
-  const MON_EMAIL_ADMIN = "rabherilala@gmail.com"; 
-
-  // 1. GESTION DE L'ACCÈS AVEC L'INTERRUPTEUR GLOBAL
-  firebase.auth().onAuthStateChanged(async (user) => {
-    if (user) {
-      const db = firebase.firestore();
-
-      try {
-        // A. Vérification de l'abonnement de l'utilisateur
-        const userDoc = await db.collection('users').doc(user.uid).get();
-        if (!userDoc.exists) {
-          window.location.href = "connexion.html";
-          return;
-        }
-
-        const userData = userDoc.data();
-        const aujourdhui = new Date().toISOString().split('T')[0];
-
-        if (!userData.estAbonne || userData.dateExpiration < aujourdhui) {
-          alert("Votre abonnement a expiré ou n'est pas actif.");
-          window.location.href = "connexion.html";
-          return;
-        }
-
-        // B. Lecture de l'interrupteur global dans la collection settings
-        const settingsDoc = await db.collection('settings').doc('global').get();
-        const estAutorisePourTous = settingsDoc.exists ? settingsDoc.data().allowUserPdfImport : false;
-
-        // C. Condition d'affichage :
-        // Si c'est TON compte ADMIN -> Toujours affiché
-        // Si c'est un UTILISATEUR -> Affiché SEULEMENT SI l'interrupteur global est à true
-        if (user.email === rabherilala@gmail.com|| estAutorisePourTous === true) {
-          document.getElementById('qcmGeneratorSection').style.display = 'block';
-        } else {
-          document.getElementById('qcmGeneratorSection').style.display = 'none';
-        }
-
-      } catch (error) {
-        console.error("Erreur de contrôle d'accès :", error);
-        window.location.href = "connexion.html";
-      }
-
-    } else {
-      window.location.href = "connexion.html";
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white; padding: 3.5rem 1.5rem; text-align: center;
     }
-  });
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero p { color: #94a3b8; max-width: 600px; margin: 0 auto; }
 
-  // 2. FONCTION DE LECTURE DU PDF ET APPEL IA
-  async function genererQCMDepuisPDF() {
-    const fileInput = document.getElementById('pdfFileInput');
-    const statusMsg = document.getElementById('statusMsg');
+    .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; }
+
+    .section-title {
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem; color: var(--text-main);
+    }
+    .section-title i { color: var(--primary); }
+
+    /* Grille de cartes */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
     
-    if (!fileInput.files[0]) {
-      alert("Veuillez d'abord sélectionner un fichier PDF.");
-      return;
+    .card-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-
-    statusMsg.innerText = "⏳ Conversion du document PDF...";
-
-    try {
-      const file = fileInput.files[0];
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      
-      let fullText = "";
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        fullText += textContent.items.map(item => item.str).join(" ") + "\n";
-      }
-
-      statusMsg.innerText = "🧠 Création automatique du QCM en cours...";
-
-      const apiKey = "AQ.Ab8RN6IsQ796kAWf74bEwa-ezavg1kgzs-SManv9XXoVTmslRw"; 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: `Analyse le texte suivant et crée un QCM de 5 questions.
-                     Renvoie EXCLUSIVEMENT un tableau JSON structuré ainsi, sans texte ni balises markdown :
-                     [
-                       {
-                         "question": "Question ici",
-                         "options": ["Choix A", "Choix B", "Choix C", "Choix D"],
-                         "correct_answer": 0,
-                         "explanation": "Explication rapide"
-                       }
-                     ]
-
-                     Texte : ${fullText.substring(0, 5000)}`
-            }]
-          }]
-        })
-      });
-
-      const data = await response.json();
-      const rawJson = data.candidates[0].content.parts[0].text;
-      const cleanJson = rawJson.replace(/```json|```/g, "").trim();
-      const qcmData = JSON.parse(cleanJson);
-
-      afficherQCM(qcmData);
-      statusMsg.innerText = "✅ QCM généré avec succès !";
-
-    } catch (error) {
-      console.error(error);
-      statusMsg.innerText = "❌ Impossible de générer le QCM à partir de ce fichier.";
+    .card-item:hover { transform: translateY(-4px); border-color: var(--primary); }
+    
+    .card-icon {
+      width: 48px; height: 48px;
+      background: #e0f2fe; color: var(--primary);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; margin-bottom: 1rem;
     }
-  }
+    .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card-desc { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+    
+    .btn-action {
+      background: #f1f5f9; color: var(--text-main);
+      border: none; padding: 0.6rem 1rem;
+      border-radius: 8px; font-weight: 600;
+      text-decoration: none; text-align: center;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      cursor: pointer; transition: 0.2s;
+    }
+    .btn-action:hover { background: var(--primary); color: white; }
 
-  // 3. AFFICHAGE DU QCM
-  function afficherQCM(qcm) {
-    const container = document.getElementById('qcmContainer');
-    let html = "<h3>📝 Quiz Généré</h3>";
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+  </style>
+</head>
+<body>
 
-    qcm.forEach((item, index) => {
-      html += `
-        <div style="background: #ffffff; padding: 15px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 15px;">
-          <p style="font-weight: bold; margin-bottom: 10px;">${index + 1}. ${item.question}</p>
-          ${item.options.map((opt, i) => `
-            <label style="display: block; margin: 5px 0; cursor: pointer;">
-              <input type="radio" name="q${index}" value="${i}"> ${opt}
-            </label>
-          `).join('')}
+  <header>
+    <a href="#" class="logo"><i class="fa-solid fa-heart-pulse"></i> MedX</a>
+    <span style="font-size: 0.875rem; color: var(--text-muted);">Espace Étudiant</span>
+  </header>
+
+  <section class="hero">
+    <h1>Programme d'Études Médicales</h1>
+    <p>Accédez aux fiches de cours PDF et aux vidéothèques classées par Unités d'Enseignement.</p>
+  </section>
+
+  <main class="container">
+
+    <!-- ==================== SECTION 1 : CARTE DES PDF PAR UE ==================== -->
+    <div class="section-title">
+      <i class="fa-solid fa-file-pdf"></i>
+      <h2>SECTION 1 : Fiches & Supports PDF par UE</h2>
+    </div>
+
+    <div class="grid-cards">
+
+      <!-- Carte PDF : Biomolécules -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
+          <div class="card-title">Structure & Fonction des Biomolécules</div>
+          <div class="card-desc">Accédez aux cours PDF sur les protéines, lipides et enzymes.</div>
         </div>
-      `;
-    });
+        <a href="pdf/biomolecules-cours.pdf" target="_blank" class="btn-action">
+          Ouvrir PDF <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
 
-    container.innerHTML = html;
-  }
-</script>
-    <footer>
-        <p>&copy;2025 Mon site Educatif
-        -Tous droits r&eacute;serv&eacute;s </p>
-    </footer>
+      <!-- Carte PDF : Anatomie -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-child"></i></div>
+          <div class="card-title">Anatomie Humaine</div>
+          <div class="card-desc">Fiches illustrées sur l'organisation générale et l'ostéologie.</div>
+        </div>
+        <a href="pdf/anatomie-cours.pdf" target="_blank" class="btn-action">
+          Ouvrir PDF <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte PDF : Médicaments -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-pills"></i></div>
+          <div class="card-title">Initiation aux Médicaments</div>
+          <div class="card-desc">Bases fondamentales de la pharmacologie générale.</div>
+        </div>
+        <a href="pdf/medicaments-cours.pdf" target="_blank" class="btn-action">
+          Ouvrir PDF <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte PDF : Biomath & Biophysique -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-calculator"></i></div>
+          <div class="card-title">Biomathématiques & Biophysique</div>
+          <div class="card-desc">Statistiques médicales et principes de biophysique.</div>
+        </div>
+        <a href="pdf/biomath-cours.pdf" target="_blank" class="btn-action">
+          Ouvrir PDF <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte PDF : Physiologie -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-wave-square"></i></div>
+          <div class="card-title">Physiologie Humaine</div>
+          <div class="card-desc">Fonctionnement cardiovasculaire, respiratoire et digestif.</div>
+        </div>
+        <a href="pdf/physiologie-cours.pdf" target="_blank" class="btn-action">
+          Ouvrir PDF <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Carte PDF : Unités Spécifiques -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-microscope"></i></div>
+          <div class="card-title">Unités d'Études Spécifiques</div>
+          <div class="card-desc">Supports PDF pour l'IRM, l'Ostéologie et l'Embryologie.</div>
+        </div>
+        <a href="pdf/specifiques-cours.pdf" target="_blank" class="btn-action">
+          Ouvrir PDF <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+
+
+    <!-- ==================== SECTION 2 : CARTE DES VIDÉOS PAR UE ==================== -->
+    <div class="section-title">
+      <i class="fa-solid fa-circle-play"></i>
+      <h2>SECTION 2 : Vidéothèques par UE</h2>
+    </div>
+
+    <div class="grid-cards">
+
+      <!-- Carte Vidéo : Biomolécules -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="card-title">Vidéothèque : Biomolécules</div>
+          <div class="card-desc">Explications en vidéo des réactions et structures moléculaires.</div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=EXEMPLE_ID" target="_blank" class="btn-action">
+          Regarder Vidéo <i class="fa-solid fa-play"></i>
+        </a>
+      </div>
+
+      <!-- Carte Vidéo : Anatomie -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="card-title">Vidéothèque : Anatomie</div>
+          <div class="card-desc">Tutoriels et modélisations 3D du corps humain.</div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=EXEMPLE_ID" target="_blank" class="btn-action">
+          Regarder Vidéo <i class="fa-solid fa-play"></i>
+        </a>
+      </div>
+
+      <!-- Carte Vidéo : Médicaments -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="card-title">Vidéothèque : Médicaments</div>
+          <div class="card-desc">Vidéos explicatives sur les récepteurs et cibles thérapeutiques.</div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=EXEMPLE_ID" target="_blank" class="btn-action">
+          Regarder Vidéo <i class="fa-solid fa-play"></i>
+        </a>
+      </div>
+
+      <!-- Carte Vidéo : Biomath & Biophysique -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="card-title">Vidéothèque : Biomath & Biophysique</div>
+          <div class="card-desc">Résolution d'exercices et phénomènes physiques en vidéo.</div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=EXEMPLE_ID" target="_blank" class="btn-action">
+          Regarder Vidéo <i class="fa-solid fa-play"></i>
+        </a>
+      </div>
+
+      <!-- Carte Vidéo : Physiologie -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="card-title">Vidéothèque : Physiologie</div>
+          <div class="card-desc">Animations explicatives du système cardiaque et digestif.</div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=EXEMPLE_ID" target="_blank" class="btn-action">
+          Regarder Vidéo <i class="fa-solid fa-play"></i>
+        </a>
+      </div>
+
+      <!-- Carte Vidéo : Unités Spécifiques -->
+      <div class="card-item">
+        <div>
+          <div class="card-icon"><i class="fa-solid fa-video"></i></div>
+          <div class="card-title">Vidéothèque : Unités Spécifiques</div>
+          <div class="card-desc">Démonstrations pratiques sur l'IRM et l'Embryologie.</div>
+        </div>
+        <a href="https://www.youtube.com/watch?v=EXEMPLE_ID" target="_blank" class="btn-action">
+          Regarder Vidéo <i class="fa-solid fa-play"></i>
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 MedX. Tous droits réservés.
+  </footer>
+
 </body>
 </html>
