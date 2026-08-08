@@ -12,6 +12,7 @@ import {
   setDoc 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+// Configuration Firebase
 const firebaseConfig = {
   apiKey: "AlzaSyBb58B3tLEe4QOw-JJzlgDr06tcZ-9qgKY",
   authDomain: "studio-8223732654-49acc.firebaseapp.com",
@@ -25,7 +26,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Connexion
+// Fonction de Connexion
 window.login = async function() {
   const email = document.getElementById("auth-email")?.value;
   const password = document.getElementById("auth-password")?.value;
@@ -42,7 +43,7 @@ window.login = async function() {
   }
 };
 
-// Inscription
+// Fonction d'Inscription
 window.signup = async function() {
   const email = document.getElementById("auth-email")?.value;
   const password = document.getElementById("auth-password")?.value;
@@ -56,65 +57,68 @@ window.signup = async function() {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    // Création du document dans Firestore avec role "en_attente"
     await setDoc(doc(db, "users", user.uid), {
       email: user.email,
       role: "en_attente",
       createdAt: new Date().toISOString()
     });
 
-    alert("Compte créé avec succès ! En attente d'approbation.");
+    alert("Compte créé avec succès ! En attente de validation par l'administrateur.");
   } catch (error) {
     alert("Erreur lors de l'inscription : " + error.message);
   }
 };
 
-// Gestion centralisée de la sécurité et des accès
+// GESTION DES ACCÈS
 onAuthStateChanged(auth, async (user) => {
-  let pathname = window.location.pathname;
-  let pageActuelle = pathname.split("/").pop().toLowerCase();
+  // Récupération du nom de la page actuelle
+  const fullPath = window.location.pathname;
+  let filename = fullPath.substring(fullPath.lastIndexOf('/') + 1).toLowerCase();
 
-  if (pageActuelle === "" || pageActuelle === "index.html" || pathname.endsWith("/")) {
-    pageActuelle = "index.htm";
+  // Si on est à la racine
+  if (filename === "" || filename === "index.html") {
+    filename = "index.htm";
   }
 
-  const pageConnexion = "connexion.htm";
-  const pageAccueil = "index.htm";
-
-  // 1. Visiteur NON connecté
+  // 1. SI L'UTILISATEUR N'EST PAS CONNECTÉ
   if (!user) {
-    if (pageActuelle !== pageConnexion) {
-      window.location.replace(pageConnexion);
+    if (filename !== "connexion.htm") {
+      window.location.replace("connexion.htm");
     } else {
       document.documentElement.style.visibility = "visible";
     }
     return;
   }
 
-  // 2. Utilisateur connecté sur la page de connexion
-  if (pageActuelle === pageConnexion) {
-    window.location.replace(pageAccueil);
+  // 2. SI L'UTILISATEUR EST CONNECTÉ
+  
+  // S'il est sur la page de connexion, on l'envoie sur l'accueil
+  if (filename === "connexion.htm") {
+    window.location.replace("index.htm");
     return;
   }
 
-  // 3. Vérification du rôle dans Firestore
+  // S'il est sur la page d'accueil, on affiche la page directement
+  if (filename === "index.htm") {
+    document.documentElement.style.visibility = "visible";
+    return;
+  }
+
+  // 3. VÉRIFICATION DES PAGES DE COURS (ex: medecine.htm)
   try {
     const userDoc = await getDoc(doc(db, "users", user.uid));
-    const estAbonne = userDoc.exists() && userDoc.data().role === "abonné";
-
-    // Si on est sur une page de cours (pas l'accueil) et pas abonné -> Redirection accueil
-    if (pageActuelle !== pageAccueil && !estAbonne) {
-      alert("Accès refusé : Votre compte n'est pas encore activé par l'administrateur.");
-      window.location.replace(pageAccueil);
-      return;
+    
+    if (userDoc.exists() && userDoc.data().role === "abonné") {
+      // L'utilisateur est autorisé
+      document.documentElement.style.visibility = "visible";
+    } else {
+      // L'utilisateur n'est PAS autorisé
+      alert("Accès refusé : Votre compte est en attente d'approbation.");
+      window.location.replace("index.htm");
     }
-
-    // Sinon, afficher la page normalement
-    document.documentElement.style.visibility = "visible";
-
-  } catch (e) {
-    console.error("Erreur de vérification Firestore :", e);
-    if (pageActuelle !== pageAccueil) {
-      window.location.replace(pageAccueil);
-    }
+  } catch (error) {
+    console.error("Erreur Firestore :", error);
+    window.location.replace("index.htm");
   }
 });
