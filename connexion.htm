@@ -1,84 +1,115 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion / Inscription - MedX</title>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { 
+  getFirestore, 
+  doc, 
+  getDoc, 
+  setDoc 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  <!-- Importation du script uniquement -->
-  <script type="module" src="auth.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f9; display: flex; justify-content:
-center; align-items: center; min-height: 100vh; margin: 0; }
-        .box { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px
-rgba(0,0,0,0.1); width: 100%; max-width: 380px; text-align: center; }
-        h2 { margin-bottom: 20px; color: #333; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius:
-5px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 5px;
-background-color: #007bff; color: white; font-size: 16px; cursor: pointer; }
-        button.secondary { background-color: #6c757d; }
-        .status { margin-top: 15px; font-weight: bold; }
-    </style>
-</head>
-<body>
+// Configuration Firebase
+const firebaseConfig = {
+  apiKey: "AlzaSyBb58B3tLEe4QOw-JJzlgDr06tcZ-9qgKY",
+  authDomain: "studio-8223732654-49acc.firebaseapp.com",
+  projectId: "studio-8223732654-49acc",
+  storageBucket: "studio-8223732654-49acc.firebasestorage.app",
+  messagingSenderId: "936947686357",
+  appId: "1:936947686357:web:66b53d0cbbe4da290f3b5c"
+};
 
-<div class="box">
-    <h2>MED X</h2>
-    <input type="email" id="email" placeholder="Adresse e-mail" required>
-    <input type="password" id="password" placeholder="Mot de passe (6 car. min)" required>
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    <button id="btnLogin">Se connecter</button>
-    <button id="btnSignup" class="secondary">Créer un compte</button>
+// Connexion
+window.login = async function() {
+  const email = document.getElementById("auth-email")?.value;
+  const password = document.getElementById("auth-password")?.value;
 
-    <div id="statusMsg" class="status"></div>
-</div>
+  if (!email || !password) {
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
 
-<script type="module">
-    import { auth, db } from './firebase-config.js';
-    import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    alert("Erreur de connexion : " + error.message);
+  }
+};
 
-    const emailIn = document.getElementById('email');
-    const passIn = document.getElementById('password');
-    const msg = document.getElementById('statusMsg');
+// Inscription (Nouveau compte mis par défaut "en_attente")
+window.signup = async function() {
+  const email = document.getElementById("auth-email")?.value;
+  const password = document.getElementById("auth-password")?.value;
 
-    // Inscription
-    document.getElementById('btnSignup').addEventListener('click', async () => {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, emailIn.value,
-passIn.value);
-            const user = userCredential.user;
+  if (!email || !password) {
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
 
-            // Création du profil abonné (Par défaut : non abonné)
-            await setDoc(doc(db, "users", user.uid), {
-                email: user.email,
-                estAbonne: false,
-                dateExpiration: ""
-            });
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-            msg.style.color = "green";
-            msg.innerText = "Compte créé ! Redirection...";
-            setTimeout(() => { window.location.href = "index.html"; }, 1500);
-        } catch (err) {
-            msg.style.color = "red";
-            msg.innerText = "Erreur : " + err.message;
-        }
+    // Création du profil utilisateur dans Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      role: "en_attente",
+      createdAt: new Date().toISOString()
     });
 
-    // Connexion
-    document.getElementById('btnLogin').addEventListener('click', async () => {
-        try {
-            await signInWithEmailAndPassword(auth, emailIn.value, passIn.value);
-            msg.style.color = "green";
-            msg.innerText = "Connexion réussie !";
-            setTimeout(() => { window.location.href = "index.html"; }, 1500);
-        } catch (err) {
-            msg.style.color = "red";
-            msg.innerText = "E-mail ou mot de passe incorrect.";
-        }
-    });
-</script>
-</body>
-</html>
+    alert("Compte créé avec succès ! En attente d'approbation par l'administrateur.");
+  } catch (error) {
+    alert("Erreur lors de l'inscription : " + error.message);
+  }
+};
+
+// Contrôle des accès et vérification dans Firestore
+onAuthStateChanged(auth, async (user) => {
+  let pathname = window.location.pathname;
+  let pageActuelle = pathname.split("/").pop().toLowerCase();
+
+  if (pageActuelle === "" || pageActuelle === "index.html" || pathname.endsWith("/")) {
+    pageActuelle = "index.htm";
+  }
+
+  const pageConnexion = "connexion.htm";
+
+  if (!user) {
+    // Si l'utilisateur n'est pas connecté, redirection forcée vers la page de connexion
+    localStorage.setItem("verifier_statut_apprentissage", "false");
+    if (pageActuelle !== pageConnexion) {
+      window.location.replace("connexion.htm");
+    } else {
+      document.documentElement.style.visibility = "visible";
+    }
+  } else {
+    // Si l'utilisateur est connecté et se trouve sur la page de connexion, redirection vers l'accueil
+    if (pageActuelle === pageConnexion) {
+      window.location.replace("index.htm");
+      return;
+    }
+
+    // Vérification directe du rôle dans Firestore
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+
+      if (userDoc.exists() && userDoc.data().role === "abonné") {
+        localStorage.setItem("verifier_statut_apprentissage", "true");
+      } else {
+        localStorage.setItem("verifier_statut_apprentissage", "false");
+      }
+    } catch (e) {
+      console.error("Erreur d'accès aux données :", e);
+      localStorage.setItem("verifier_statut_apprentissage", "false");
+    }
+
+    document.documentElement.style.visibility = "visible";
+  }
+});
