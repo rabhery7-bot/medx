@@ -8,6 +8,12 @@ i<!DOCTYPE HTML>
      <link rel="stylesheet" href="style.css">
      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3430255374466368"
      crossorigin="anonymous"></script>
+
+  <!-- 1. Masque l'écran temporairement (anti-clignotement) -->
+  <script>document.documentElement.style.visibility = "hidden";</script>
+
+  <!-- 2. Charger le fichier d'authentification -->
+  <script type="module" src="auth.js"></script>
      <!-- Sécurité Firebase pour page abonnés -->
 <script type="module">
   import { auth, db } from './firebase-config.js';
