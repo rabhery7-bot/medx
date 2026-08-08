@@ -4,20 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MedX - Apprendre la médecine seul & efficacement</title>
- <script>
-  // Empêche le clignotement de la page avant vérification
-  document.documentElement.style.visibility = "hidden";
-
-  window.addEventListener("DOMContentLoaded", () => {
-    const estAbonne = localStorage.getItem("verifier_statut_apprentissage");
-
-    // Si le statut n'est pas "true" (donc pas "abonné"), bloque l'accès
-    if (estAbonne !== "true") {
-      alert("Accès refusé : Votre compte est en attente d'approbation ou non abonné.");
-      window.location.replace("index.htm");
-    }
-  });
-</script>
 <!-- 2. Charger le fichier d'authentification -->
   <script type="module" src="auth.js"></script>
   <!-- FontAwesome pour les icônes de la page -->
