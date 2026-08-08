@@ -6,58 +6,6 @@ i<!DOCTYPE HTML>
      <meta name="google-site-verification" content="HHskYt6qcTatXYBz4qSQn-D7wug2zwrUdFBfriYA4xY" />
      <title>Mon site Educatif</title>
      <link rel="stylesheet" href="style.css">
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3430255374466368"
-     crossorigin="anonymous"></script>
-
-  <!-- 1. Masque l'écran temporairement (anti-clignotement) -->
-  <script>document.documentElement.style.visibility = "hidden";</script>
-
-  <!-- 2. Charger le fichier d'authentification -->
-  <script type="module" src="auth.js"></script>
-     <!-- Sécurité Firebase pour page abonnés -->
-<script type="module">
-  import { auth, db } from './firebase-config.js';
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  // Masquer temporairement le corps de la page pendant la vérification
-  document.documentElement.style.display = 'none';
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      // Utilisateur non connecté -> Redirection vers la connexion
-      alert("🔐 Veuillez vous connecter pour accéder à ce cours.");
-      window.location.href = "connexion.html";
-      return;
-    }
-
-    try {
-      // Récupération des données de l'abonné dans Firestore
-      const userDocRef = doc(db, "users", user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        const data = userDoc.data();
-        const today = new Date().toISOString().split('T')[0];
-
-        // Vérification de l'abonnement et de la date
-        if (data.estAbonne === true && data.dateExpiration >= today) {
-          // Accès accordé : afficher le contenu de la page
-          document.documentElement.style.display = 'block';
-        } else {
-          alert("⛔ Votre abonnement n'est pas actif ou a expiré. Veuillez contacter l'administration Check & Learn.");
-          window.location.href = "index.html";
-        }
-      } else {
-        alert("Compte non trouvé.");
-        window.location.href = "connexion.html";
-      }
-    } catch (error) {
-      console.error("Erreur de vérification :", error);
-      window.location.href = "index.html";
-    }
-  });
-</script>
 
 </head>
 
@@ -252,28 +200,7 @@ i<!DOCTYPE HTML>
     <footer>
         <p>&copy;2025 Mon site Educatif
         -Tous droits r&eacute;serv&eacute;s </p>
-    </footer>
-      <!-- SDKs Firebase (v9+ Compatibilité) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-<!-- Lien vers ton fichier de configuration Firebase -->
-<script src="auth.js"></script>
-
-<script>
-  // Vérification du statut de connexion au chargement de la page
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      // L'utilisateur est connecté : on affiche la page
-      console.log("Accès autorisé pour :", user.email);
-      document.body.style.display = "block";
-    } else {
-      // L'utilisateur n'est pas connecté : redirection vers la page de connexion
-      console.warn("Accès refusé. Redirection vers login.html...");
-      window.location.href = "login.html";
-    }
-  });
-</script>       
+    </footer>     
 </body>
 </html>
 
