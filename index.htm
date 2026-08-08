@@ -3,69 +3,202 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> MedX | Préparation et Apprentissage de la Médecine</title>
-  <link rel="stylesheet" href="style1.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>MedX - Apprendre la médecine seul & efficacement</title>
+
+  <!-- Lien FontAwesome pour afficher l'icône médicale du caducée -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg-main: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; }
+
+    /* En-tête / Barre de Navigation */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* Logo Modèle B (SpaceX + Caducée) */
+    .logo-medx-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      color: var(--text-main);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease;
+    }
+
+    .logo-medx-icon:hover {
+      opacity: 0.85;
+    }
+
+    .icon-caduceus {
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    .x-blue {
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    /* Liens de Navigation */
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: #f0f9ff;
+      padding: 4rem 1.5rem;
+      text-align: center;
+    }
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.75rem; color: var(--text-main); font-weight: 800; }
+    .hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto 1.5rem auto; }
+    .btn-hero {
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .btn-hero:hover { background: var(--primary-dark); }
+
+    /* Section Ressources */
+    .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
+    .section-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; }
+    
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .card p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .card a { color: var(--primary); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
+    .card a:hover { text-decoration: underline; }
+
+    /* Bouton Téléchargement App */
+    .btn-app {
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.85rem 1.25rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .app-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; }
+  </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <header class="navbar">
-    <div class="logo">
-      <h1>Med <span>X</span></h1>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="#" class="active">Accueil</a></li>
-        <li><a href="anglais.htm">Anglais</a></li>
-        <li><a href="medecine.htm">Médecine</a></li>
-        <li><a href="contact.htm">Services</a></li>
-        <li><a href="a-propos.htm">À propos</a></li>
-      </ul>
+  <!-- EN-TÊTE AVEC LE NOUVEAU LOGO SPACEX + CADUCÉE -->
+  <header>
+    <a href="index.html" class="logo-medx-icon">
+      <i class="fa-solid fa-staff-snake icon-caduceus"></i>
+      <span>MED<strong class="x-blue">X</strong></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html" class="active">Accueil</a>
+      <a href="#">Anglais</a>
+      <a href="medecine.html">Médecine</a>
+      <a href="#">Services</a>
+      <a href="#">À propos</a>
     </nav>
   </header>
 
-  <!-- Hero Section -->
+  <!-- BANNIÈRE PRINCIPALE -->
   <section class="hero">
-    <h2>Apprendre la médecine seul & efficacement</h2>
+    <h1>Apprendre la médecine seul & efficacement</h1>
     <p>Une méthode simple basée sur des ressources claires et des cours pratiques.</p>
-    <a href="anglais.htm" class="btn-primary">Découvrir les cours</a>
+    <a href="medecine.html" class="btn-hero">Découvrir les cours</a>
   </section>
 
-  <!-- Section Ressources -->
-  <section class="courses-container">
-    <h3>Ressources & Exercices</h3>
-    <div class="grid-courses">
+  <!-- RESSOURCES & EXERCICES -->
+  <main class="container">
+    <h2 class="section-title">Ressources & Exercices</h2>
+
+    <div class="grid-cards">
       <div class="card">
-        <h4>Exercice sous forme de QCM</h4>
-        <p>Comprendre la leçon et mémoriser les points importants</p>
-        <a href="#" class="btn-card">Ouvrir l'exercice</a>
+        <h3>Exercice sous forme de QCM</h3>
+        <p>Comprendre la leçon et mémoriser les points importants.</p>
+        <a href="#">Ouvrir l'exercice</a>
       </div>
+
       <div class="card">
-        <h4>Lesson sur toutes les Unités d'études</h4>
-        <p>Maitrisez les Unités d'études.</p>
-        <a href="#" class="btn-card">Lire la leçon</a>
+        <h3>Lesson sur toutes les Unités d'études</h3>
+        <p>Maîtrisez les Unités d'études.</p>
+        <a href="medecine.html">Lire la leçon</a>
       </div>
+
       <div class="card">
-        <h4>American English</h4>
+        <h3>American English</h3>
         <p>Expressions clés et vocabulaire usuel des natifs.</p>
-        <a href="#" class="btn-card">Découvrir</a>
+        <a href="#">Découvrir</a>
       </div>
-      <!-- Bouton de Téléchargement APK -->
-<div style="text-align: center; margin: 30px 0;">
-  <a href="https://checkandlearn.netlify.app/ /MedPrep-EDN.apk" 
-     style="background-color: #0284C7; color: white; padding: 14px 28px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);">
-    📱 Télécharger l'Application Android (APK Gratuit)
-  </a>
-  <p style="font-size: 12px; color: #64748B; margin-top: 8px;">
-    Compatible avec tous les smartphones Android.
-  </p>
-</div>
     </div>
-  </section>
-  <script type="module" src="auth.js"></script>
+
+    <!-- BOUTON D'APPLICATION -->
+    <div>
+      <a href="#" class="btn-app">
+        <i class="fa-solid fa-mobile-screen-button"></i> Télécharger l'Application Android (APK Gratuit)
+      </a>
+      <div class="app-note">Compatible avec tous les smartphones Android.</div>
+    </div>
+  </main>
 
 </body>
 </html>
-
