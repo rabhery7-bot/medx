@@ -1,16 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { 
-  getFirestore, 
-  doc, 
-  getDoc, 
-  setDoc 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -26,7 +16,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Connexion
+// Connexion simple
 window.login = async function() {
   const email = document.getElementById("auth-email")?.value;
   const password = document.getElementById("auth-password")?.value;
@@ -38,78 +28,47 @@ window.login = async function() {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    alert("Connexion réussie !");
+    window.location.replace("index.htm");
   } catch (error) {
     alert("Erreur de connexion : " + error.message);
   }
 };
 
-// Inscription (Nouveau compte mis par défaut "en_attente")
-window.signup = async function() {
-  const email = document.getElementById("auth-email")?.value;
-  const password = document.getElementById("auth-password")?.value;
+// Liste des pages STRICTEMENT RÉSERVÉES
+const pagesProtegees = ["medecine.htm", "anglais.htm"];
 
-  if (!email || !password) {
-    alert("Veuillez remplir tous les champs.");
-    return;
-  }
-
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    // Création du profil utilisateur dans Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      email: user.email,
-      role: "en_attente",
-      createdAt: new Date().toISOString()
-    });
-
-    alert("Compte créé avec succès ! En attente d'approbation par l'administrateur.");
-  } catch (error) {
-    alert("Erreur lors de l'inscription : " + error.message);
-  }
-};
-
-// Contrôle des accès et vérification dans Firestore
 onAuthStateChanged(auth, async (user) => {
-  let pathname = window.location.pathname;
-  let pageActuelle = pathname.split("/").pop().toLowerCase();
+  const fullPath = window.location.pathname;
+  let pageActuelle = fullPath.substring(fullPath.lastIndexOf('/') + 1).toLowerCase();
 
-  if (pageActuelle === "" || pageActuelle === "index.html" || pathname.endsWith("/")) {
-    pageActuelle = "index.htm";
-  }
-
-  const pageConnexion = "connexion.htm";
-
-  if (!user) {
-    // Si l'utilisateur n'est pas connecté, redirection forcée vers la page de connexion
-    localStorage.setItem("verifier_statut_apprentissage", "false");
-    if (pageActuelle !== pageConnexion) {
-      window.location.replace("connexion.htm");
-    } else {
-      document.documentElement.style.visibility = "visible";
-    }
-  } else {
-    // Si l'utilisateur est connecté et se trouve sur la page de connexion, redirection vers l'accueil
-    if (pageActuelle === pageConnexion) {
+  // On vérifie le statut uniquement si le visiteur tente d'ouvrir une page protégée
+  if (pagesProtegees.includes(pageActuelle)) {
+    
+    // 1. Si non connecté -> Blocage et retour accueil
+    if (!user) {
+      alert("Accès non autorisé : Vous devez être connecté avec un compte abonné.");
       window.location.replace("index.htm");
       return;
     }
 
-    // Vérification directe du rôle dans Firestore
+    // 2. Si connecté -> Vérification du rôle dans Firestore
     try {
       const userDoc = await getDoc(doc(db, "users", user.uid));
+      const estAutorise = userDoc.exists() && userDoc.data().role === "abonné";
 
-      if (userDoc.exists() && userDoc.data().role === "abonné") {
-        localStorage.setItem("verifier_statut_apprentissage", "true");
-      } else {
-        localStorage.setItem("verifier_statut_apprentissage", "false");
+      if (!estAutorise) {
+        alert("Accès non autorisé : Votre compte n'a pas la permission pour ce cours.");
+        window.location.replace("index.htm");
+        return;
       }
-    } catch (e) {
-      console.error("Erreur d'accès aux données :", e);
-      localStorage.setItem("verifier_statut_apprentissage", "false");
+    } catch (error) {
+      console.error("Erreur Firestore :", error);
+      window.location.replace("index.htm");
+      return;
     }
-
-    document.documentElement.style.visibility = "visible";
   }
+
+  // Pour l'accueil et les autres pages publiques, tout le monde entre sans vérification
+  document.documentElement.style.visibility = "visible";
 });
