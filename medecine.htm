@@ -87,6 +87,83 @@
     .btn-action:hover { background: var(--primary); color: white; }
 
     footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+  
+   /* Container de la grille */
+.courses-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid-courses {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Style de chaque carte */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.card h4 {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.card p {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+/* Boutons d'action */
+.card-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-card {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+.btn-download {
+  background-color: #28a745;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+.btn-card:hover { background-color: #0056b3; }
+.btn-download:hover { background-color: #1e7e34; }
   </style>
 </head>
 <body>
